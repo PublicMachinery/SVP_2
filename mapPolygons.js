@@ -9,7 +9,8 @@ const fileList=['LargeLines_Arcticline.geojson',
 'PointTrip_Tripcoordinates.geojson',
 'Pol_Laxede_Aramsfile.geojson',
 'Pol_Military.geojson',
-'LargeLines_180kmboundary.geojson']
+'LargeLines_180kmboundary.geojson',
+'Pol_Intactforest4_Tomas.geojson']
 
 async function polygons(files){
     const response = fetch(`./assets/${files}`);
