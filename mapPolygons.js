@@ -3,14 +3,14 @@
 const fileList=['LargeLines_Arcticline.geojson',
 'Line_Cultivationboarder.geojson',
 'Point_BiofuelGenerator.geojson',
-// 'Point_Cesarcoordinats.geojson',
-//'Line_Hikingroute.geojson',
+'Point_Cesarcoordinats.geojson',
 'Line_Railway.geojson',
 'PointTrip_Tripcoordinates.geojson',
 'Pol_Laxede_Aramsfile.geojson',
 'Pol_Military.geojson',
 'LargeLines_180kmboundary.geojson',
-'Pol_Intactforest4_Tomas.geojson']
+'Pol_Intactforest4_Tomas.geojson'
+]
 
 async function polygons(files){
     const response = fetch(`./assets/${files}`);

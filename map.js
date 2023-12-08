@@ -22,7 +22,24 @@ zoom: 6
 // for (let coord of testPolygons){
 //     console.log(coord)
 // }
-
+const colors={
+    points:{
+        'Trip':'red',
+        'Biofuel':'green',
+        'Cesar':'yellow'
+    },
+    lines:{
+        '180kmboundary':'gray',
+        'Arcticline_':'cyan',
+        'Railway':'magenta',
+        'Cultivationboarder':'yellow',       
+    },
+    polygons:{
+        'Intactforest':'gray',
+        'Military':'blue',
+        'Aram':'magenta'
+    }
+}
 const geojson = {
     type:'FeatureCollection',
     features:[{
@@ -38,37 +55,78 @@ const geojson = {
         }]
     };
 
+
+
+
 map.on('load',()=>{
     
     for(let pol of mapPolygons){
         let srcName= `testPol${mapPolygons.indexOf(pol)}`; 
+        // const feat=pol.features
+        
+        // const featList=[]
+
+        
+
+        // for (let pf of feat){
+        //     const flCoord=((pf.geometry.coordinates).flat(1))
+        //     const featob={
+        //             type:'Feature',
+        //             geometry:{
+        //                 type:'MultiPolygon',
+        //                 coordinates:flCoord
+        //             }}
+        //     featList.push(featob)
+        //  }
+
+        // const geojsonPol={
+        //     type:'FeatureCollection',
+        //     name:pol.name,
+        //     features:featList
+        // }
+        // console.log(geojsonPol)
+
         map.addSource(
             `${srcName}`,{
                 type:'geojson',
                 data:pol,
                 }
             )
+
+        const polCol=Object.keys(colors.polygons)
+        let color=''
+        for (let c of polCol){
+            let polName=(pol.name)
+            if(polName.includes(c)){
+            color=(colors.polygons[`${c}`])
+            }
+            
+        }
         map.addLayer({
         'id': `${srcName}`,
         'type': 'fill',
         'source': `${srcName}`, // reference the data source
         'layout': {},
         'paint': {
-        'fill-color': '#EFEFF6', // blue color fill
+        'fill-color': color, // blue color fill
         'fill-opacity': 0.5
         }
         });
         // Add a black outline around the polygon.
+        
+
         map.addLayer({
         'id': `${srcName}`+ 'outline',
         'type': 'line',
         'source': `${srcName}`,
         'layout': {},
         'paint': {
-        'line-color': '#000',
+        'line-color': color,
         'line-width': 2
         }
     });};
+
+
 
     for(let line of mapLinesLarge){
         let lineSrcName=`lineLarge${mapLinesLarge.indexOf(line)}`;
@@ -79,13 +137,25 @@ map.on('load',()=>{
                 data:line,
                 }
             );
+
+        const lineCol=Object.keys(colors.lines)
+        let color=''
+        
+        for (let c of lineCol){
+            let lineName=(line.name)
+           
+            if(lineName.includes(c)){
+                color=(colors.lines[`${c}`])
+            }
+        }
+        // debugger    
         map.addLayer({
             'id': `${lineSrcName}`,
             'type': 'line',
             'source': `${lineSrcName}`, // reference the data source
             'layout': {},
             'paint': {
-            'line-color': '#F2AF29', // blue color fill
+            'line-color': color, // blue color fill
             'line-width': 4,
             'line-dasharray':[1,2]},
                 
@@ -100,13 +170,24 @@ map.on('load',()=>{
                 data:line,
                 }
             );
+        const lineCol=Object.keys(colors.lines)
+        let color=''
+        for (let c of lineCol){
+            let lineName=(line.name)
+            console.log(lineName)
+            console.log(c)
+            if(lineName.includes(c)){
+                color=(colors.lines[`${c}`])
+            }
+        }
+        // debugger 
         map.addLayer({
             'id': `${lineSrcName}`,
             'type': 'line',
             'source': `${lineSrcName}`, // reference the data source
             'layout': {},
             'paint': {
-            'line-color': '#95A5A6', // blue color fill
+            'line-color': color, // blue color fill
             'line-width':1,
             },
                 
@@ -121,24 +202,25 @@ map.on('load',()=>{
                 data:line,
                 }
             );
+        
         map.addLayer({
             'id': `${lineSrcName}`,
             'type': 'line',
             'source': `${lineSrcName}`, // reference the data source
             'layout': {},
             'paint': {
-            'line-color': '#00ffff', // blue color fill
+            'line-color': color, // blue color fill
             'line-width':0.5,
             // 'line-dasharray':[1,2]
         }
     });};
-    console.log(pointC.length)
+    
     const pointT = [{type:'FeatureCollection',name:'PointsTrip',
             features:pointC
            }];
     for(let p of pointT){
         let pointTrName=`pointsTrip${pointC.indexOf(p)}`;
-        console.log(p)
+    
         // debugger
 
         map.addSource(
@@ -147,7 +229,7 @@ map.on('load',()=>{
                 data:p,
                 }
             );
-        console.log()
+
         map.addLayer({
             'id': pointTrName,
             'type': 'circle',
@@ -163,7 +245,7 @@ map.on('load',()=>{
     
     for(let pt of mapPoints){
         let lineSrcName=`pointsTrip${mapPoints.indexOf(pt)}`;
-        console.log(pt)
+    
         map.addSource(
             lineSrcName,{
                 type:'geojson',
